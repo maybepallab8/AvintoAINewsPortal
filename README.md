@@ -1,21 +1,87 @@
-# Next.js template
+# Newspaper-AI
 
-This is a Next.js template with shadcn/ui.
+News website built with Next.js that renders articles in a **single Masonry layout**. It provides three categories — **AI**, **Sports**, and **World News** — shown on a single page with a **horizontal category selector**.
 
-## Adding components
+## Tech stack
 
-To add components to your app, run the following command:
+- **Framework**: Next.js (App Router)
+- **UI**: React, shadcn/ui, Base UI, Tailwind CSS
+- **State**: Zustand
+- **Tooling**: TypeScript, ESLint, Oxlint, Prettier
+
+## Scripts
 
 ```bash
-npx shadcn@latest add button
+# dev server (turbopack)
+npm run dev
+
+# production build (runs oxlint first)
+npm run build
+
+# start production server
+npm run start
+
+# formatting + checks
+npm run format
+npm run typecheck
+npm run lint
+npm run lint:fix
 ```
 
-This will place the ui components in the `components` directory.
+## Packages (from `package.json`)
 
-## Using components
+### Dependencies
 
-To use the components in your app, import them as follows:
+- **`next`**: framework/runtime
+- **`react`, `react-dom`**: UI library
+- **`tailwind-merge`**, **`clsx`**: className composition utilities
+- **`class-variance-authority`**: variant-driven component styling
+- **`lucide-react`**: icons
+- **`next-themes`**: theme toggling (light/dark/system)
+- **`zustand`**: state management
+- **`@base-ui/react`**: headless UI primitives
+- **`shadcn`**: shadcn/ui CLI utilities
+- **`tw-animate-css`**: animation utilities
 
-```tsx
-import { Button } from "@/components/ui/button";
+### Dev dependencies
+
+- **`typescript`**, **`@types/*`**: TypeScript + type definitions
+- **`eslint`**, **`eslint-config-next`**, **`@eslint/eslintrc`**: linting
+- **`oxlint`**: fast linting (also used in `build`)
+- **`prettier`**, **`prettier-plugin-tailwindcss`**: formatting
+- **`tailwindcss`**, **`postcss`**, **`@tailwindcss/postcss`**: styling pipeline
+
+## Entire folder structure
+
+> Generated from the current workspace layout.
+
+```text
+.
+├── README.md
+├── app
+│   ├── favicon.ico
+│   ├── globals.css
+│   ├── layout.tsx
+│   └── page.tsx
+├── components
+│   ├── theme-provider.tsx
+│   └── ui
+│       └── button.tsx
+├── components.json
+├── eslint.config.mjs
+├── hooks
+├── lib
+│   └── utils.ts
+├── next-env.d.ts
+├── next.config.mjs
+├── node_modules
+├── package-lock.json
+├── package.json
+├── postcss.config.mjs
+├── public
+├── services
+├── store
+├── tsconfig.json
+├── types
+└── utils
 ```
