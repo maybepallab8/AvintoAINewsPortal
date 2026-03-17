@@ -1,13 +1,13 @@
 # Newspaper-AI
 
-News website built with Next.js that renders articles in a **single Masonry layout**. It provides three categories — **AI**, **Sports**, and **World News** — shown on a single page with a **horizontal category selector**.
+News website built with Next.js with a single masonry-style layout. The app displays **three columns** for **AI**, **Sports**, and **World News**, and each column contains news for its respective category.
 
 ## Tech stack
 
 - **Framework**: Next.js (App Router)
 - **UI**: React, shadcn/ui, Base UI, Tailwind CSS
 - **State**: Zustand
-- **Tooling**: TypeScript, ESLint, Oxlint, Prettier
+- **Tooling**: TypeScript, Oxlint, Prettier
 
 ## Scripts
 
@@ -46,7 +46,6 @@ npm run lint:fix
 ### Dev dependencies
 
 - **`typescript`**, **`@types/*`**: TypeScript + type definitions
-- **`eslint`**, **`eslint-config-next`**, **`@eslint/eslintrc`**: linting
 - **`oxlint`**: fast linting (also used in `build`)
 - **`prettier`**, **`prettier-plugin-tailwindcss`**: formatting
 - **`tailwindcss`**, **`postcss`**, **`@tailwindcss/postcss`**: styling pipeline
@@ -57,31 +56,30 @@ npm run lint:fix
 
 ```text
 .
-├── README.md
-├── app
-│   ├── favicon.ico
-│   ├── globals.css
-│   ├── layout.tsx
-│   └── page.tsx
-├── components
-│   ├── theme-provider.tsx
-│   └── ui
-│       └── button.tsx
-├── components.json
-├── eslint.config.mjs
-├── hooks
-├── lib
-│   └── utils.ts
-├── next-env.d.ts
-├── next.config.mjs
-├── node_modules
-├── package-lock.json
-├── package.json
-├── postcss.config.mjs
-├── public
-├── services
-├── store
-├── tsconfig.json
-├── types
-└── utils
+├── README.md              # project documentation
+├── app                    # Next.js App Router pages, layouts, and global styles
+│   ├── favicon.ico        # site favicon
+│   ├── globals.css        # global Tailwind and app-wide styles
+│   ├── layout.tsx         # root layout shared across all pages
+│   └── page.tsx           # homepage with the single-page news layout
+├── components             # reusable React components
+│   ├── theme-provider.tsx # app theme provider integration
+│   └── ui                 # shadcn/ui primitive components
+│       └── button.tsx     # reusable button component
+├── components.json        # shadcn/ui generator configuration
+├── hooks                  # custom React hooks
+├── lib                    # shared helper/library code
+│   └── utils.ts           # common utility helpers
+├── next-env.d.ts          # Next.js TypeScript environment declarations
+├── next.config.mjs        # Next.js configuration
+├── node_modules           # installed npm packages
+├── package-lock.json      # exact dependency lockfile
+├── package.json           # project metadata, scripts, and dependencies
+├── postcss.config.mjs     # PostCSS and Tailwind integration config
+├── public                 # static public assets
+├── services               # API clients and data-fetching logic
+├── store                  # Zustand/global state stores
+├── tsconfig.json          # TypeScript configuration
+├── types                  # shared TypeScript type definitions
+└── utils                  # additional generic utility functions
 ```
