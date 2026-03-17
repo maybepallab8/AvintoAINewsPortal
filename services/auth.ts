@@ -5,10 +5,18 @@ import type {
   RegisterResponse,
 } from "@/types/auth"
 
-const REGISTER_ENDPOINT =
-  "https://seral-parker-noncommittally.ngrok-free.dev/api/auth/register/"
-const LOGIN_ENDPOINT =
-  "https://seral-parker-noncommittally.ngrok-free.dev/api/auth/login/"
+const API_BASE_URL = process.env["NEXT_PUBLIC_API_URL"]
+
+function getAuthEndpoint(path: string): string {
+  if (!API_BASE_URL) {
+    throw new Error("NEXT_PUBLIC_API_URL is not configured.")
+  }
+
+  return `${API_BASE_URL.replace(/\/$/, "")}${path}`
+}
+
+const REGISTER_ENDPOINT = getAuthEndpoint("/auth/register/")
+const LOGIN_ENDPOINT = getAuthEndpoint("/auth/login/")
 
 interface ApiErrorPayload {
   detail?: string
