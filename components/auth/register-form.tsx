@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation"
 import { UserPlus } from "lucide-react"
 import { toast } from "sonner"
 
+import { PasswordInput } from "@/components/auth/password-input"
 import { useRegisterForm } from "@/hooks/use-register-form"
 import { Button } from "@/components/ui/button"
 import {
@@ -96,15 +97,26 @@ export function RegisterForm(): React.JSX.Element {
                 <span className="text-xs font-black uppercase tracking-[0.24em]">
                   {field.label}
                 </span>
-                <Input
-                  className="h-12 border-4 border-black bg-white px-3 font-bold shadow-[4px_4px_0_#000] placeholder:font-medium dark:border-white dark:bg-black dark:shadow-[4px_4px_0_#fff]"
-                  name={field.name}
-                  onChange={handleInputChange}
-                  placeholder={field.placeholder}
-                  required
-                  type={field.type}
-                  value={formValues[field.name]}
-                />
+                {field.type === "password" ? (
+                  <PasswordInput
+                    inputClassName="h-12 border-4 border-black bg-white px-3 font-bold shadow-[4px_4px_0_#000] placeholder:font-medium dark:border-white dark:bg-black dark:shadow-[4px_4px_0_#fff]"
+                    name={field.name}
+                    onChange={handleInputChange}
+                    placeholder={field.placeholder}
+                    required
+                    value={formValues[field.name]}
+                  />
+                ) : (
+                  <Input
+                    className="h-12 border-4 border-black bg-white px-3 font-bold shadow-[4px_4px_0_#000] placeholder:font-medium dark:border-white dark:bg-black dark:shadow-[4px_4px_0_#fff]"
+                    name={field.name}
+                    onChange={handleInputChange}
+                    placeholder={field.placeholder}
+                    required
+                    type={field.type}
+                    value={formValues[field.name]}
+                  />
+                )}
               </label>
             ))}
           </div>
