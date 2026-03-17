@@ -29,7 +29,7 @@ export const articles: Article[] = [
     id: "a2",
     headline: "DeepMind AlphaFold 3 Accelerates Two Cancer Drug Trials",
     summary:
-      "Researchers credit the updated protein-folding model with identifying viable drug candidates in weeks rather than years, with two treatments now in Phase II clinical trials.",
+      "Researchers say the updated model helped surface viable compounds in a fraction of the usual time.",
     source: "Nature",
     time: "3h ago",
     category: "AI",
@@ -40,7 +40,7 @@ export const articles: Article[] = [
     id: "a3",
     headline: "EU AI Act Enforcement Begins — What It Means for Tech Giants",
     summary:
-      "Regulators have begun formal oversight under the bloc's new AI law, forcing major platforms to document training data, safety practices, and high-risk use cases.",
+      "Brussels has started formal checks on model makers.",
     source: "Reuters",
     time: "5h ago",
     category: "AI",
@@ -108,7 +108,7 @@ export const articles: Article[] = [
     id: "s2",
     headline: "Djokovic Claims Record 25th Grand Slam at Roland Garros",
     summary:
-      "The Serbian legend overcame a gruelling five-set final against Carlos Alcaraz to claim his unprecedented 25th major title, cementing his status as the greatest of all time.",
+      "The Serbian legend outlasted Carlos Alcaraz in a bruising five-set final that swung repeatedly on serve, momentum, and endurance. By the end, Djokovic had not only lifted an unprecedented 25th major trophy but also delivered another emphatic argument in the sport's never-ending greatest-of-all-time debate.",
     source: "Sky Sports",
     time: "4h ago",
     category: "Sports",
@@ -119,7 +119,7 @@ export const articles: Article[] = [
     id: "s3",
     headline: "NBA: Warriors Sign Surprise Free Agent Ahead of Playoffs",
     summary:
-      "Golden State moved quickly to add veteran depth after two late injuries, betting on playoff experience over long-term upside.",
+      "Golden State moved quickly after two injuries, prioritizing playoff experience over upside.",
     source: "Bleacher Report",
     time: "5h ago",
     category: "Sports",
@@ -187,7 +187,7 @@ export const articles: Article[] = [
     id: "w2",
     headline: "Ceasefire Holds as UN Envoys Begin Negotiations in Geneva",
     summary:
-      "A fragile 72-hour ceasefire entered its second day as international mediators convened emergency talks aimed at brokering a longer-term truce and establishing humanitarian corridors.",
+      "A fragile 72-hour ceasefire held into its second day as diplomats opened emergency talks in Geneva. Mediators are now pushing for humanitarian corridors, prisoner exchanges, and a longer framework that could survive beyond the initial pause in fighting.",
     source: "BBC World",
     time: "3h ago",
     category: "World",
@@ -198,7 +198,7 @@ export const articles: Article[] = [
     id: "w3",
     headline: "Japan Records Strongest Earthquake in Two Decades — No Tsunami Warning Issued",
     summary:
-      "Authorities reported widespread transport disruption and structural inspections across several prefectures, but no major coastal threat.",
+      "Rail lines paused and inspections began across multiple prefectures.",
     source: "NHK",
     time: "4h ago",
     category: "World",

@@ -1,13 +1,26 @@
-import { Bot, Globe, Trophy } from "lucide-react"
-
 import { NewsCard } from "@/components/news-card"
-import { articles, columnConfig } from "@/lib/news-data"
-import { cn } from "@/lib/utils"
+import { articles, type Article, type Category } from "@/lib/news-data"
 
-const columnIcons = {
-  AI: Bot,
-  Sports: Trophy,
-  World: Globe,
+const categories: Category[] = ["AI", "Sports", "World"]
+const categoryMeta: Record<
+  Category,
+  { label: string; accent: string; accentText: string }
+> = {
+  AI: {
+    label: "Artificial Intelligence",
+    accent: "bg-violet-500/80 dark:bg-violet-400/80",
+    accentText: "text-violet-700 dark:text-violet-300",
+  },
+  Sports: {
+    label: "Sports",
+    accent: "bg-emerald-500/80 dark:bg-emerald-400/80",
+    accentText: "text-emerald-700 dark:text-emerald-300",
+  },
+  World: {
+    label: "World News",
+    accent: "bg-sky-500/80 dark:bg-sky-400/80",
+    accentText: "text-sky-700 dark:text-sky-300",
+  },
 }
 
 function formatDate() {
@@ -20,13 +33,17 @@ function formatDate() {
 }
 
 export default function Page() {
+  const articlesByCategory: Record<Category, Article[]> = {
+    AI: articles.filter((article) => article.category === "AI"),
+    Sports: articles.filter((article) => article.category === "Sports"),
+    World: articles.filter((article) => article.category === "World"),
+  }
+
   return (
     <div className="min-h-svh bg-background">
-      {/* ── Masthead ──────────────────────────────────────────────────────── */}
       <header className="border-b border-border">
-        <div className="mx-auto max-w-7xl px-6">
-          {/* Top bar */}
-          <div className="flex items-center justify-between py-2 text-xs text-muted-foreground">
+        <div className="mx-auto max-w-7xl px-6 py-3">
+          <div className="flex items-center justify-between text-xs text-muted-foreground">
             <time dateTime={new Date().toISOString().slice(0, 10)}>
               {formatDate()}
             </time>
@@ -39,60 +56,41 @@ export default function Page() {
             </span>
           </div>
 
-          {/* Nameplate */}
-          <div className="border-y border-border py-4 text-center">
-            <h1 className="text-5xl font-black tracking-tight">NEWSPAPER AI</h1>
-            <p className="mt-1 text-[11px] uppercase tracking-[0.25em] text-muted-foreground">
-              AI · Sports · World — curated, every hour
+          <div className="mt-3 border-y border-border py-5 text-center">
+            <p className="text-[11px] uppercase tracking-[0.32em] text-muted-foreground">
+              AI · SPORTS · WORLD — CURATED EVERY HOUR
             </p>
-          </div>
-
-          {/* Column headers */}
-          <div className="grid grid-cols-3">
-            {columnConfig.map(({ key, label, accent }, i) => {
-              const Icon = columnIcons[key]
-              return (
-                <div
-                  key={key}
-                  className={cn(
-                    "flex items-center gap-2 py-2.5 text-xs font-bold uppercase tracking-widest",
-                    accent,
-                    i > 0 && "border-l border-border pl-6",
-                  )}
-                >
-                  <Icon className="size-3.5" />
-                  {label}
-                </div>
-              )
-            })}
+            <h1 className="mt-2 text-4xl font-black tracking-[0.12em] sm:text-5xl">
+              NEWSPAPER AI
+            </h1>
           </div>
         </div>
       </header>
 
-      {/* ── 3-column masonry grid ─────────────────────────────────────────── */}
-      <main className="mx-auto max-w-7xl">
-        <div className="grid grid-cols-3 divide-x divide-border">
-          {columnConfig.map(({ key, badge }, i) => {
-            const columnArticles = articles.filter((a) => a.category === key)
-            return (
-              <div
-                key={key}
-                className={cn("px-6 pt-6 pb-12", i === 0 && "pl-6")}
-              >
-                {columnArticles.map((article) => (
-                  <NewsCard
-                    key={article.id}
-                    article={article}
-                    badgeClassName={badge}
-                  />
+      <main className="mx-auto max-w-7xl px-6 py-8">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+          {categories.map((key) => (
+            <section key={key} aria-label={key}>
+              <div className="mb-5 border-b border-border/80 pb-3">
+                <div
+                  className={`mb-2 h-0.5 w-10 ${categoryMeta[key].accent}`}
+                />
+                <h2
+                  className={`text-[11px] font-semibold uppercase tracking-[0.28em] ${categoryMeta[key].accentText}`}
+                >
+                  {categoryMeta[key].label}
+                </h2>
+              </div>
+              <div>
+                {articlesByCategory[key].map((article) => (
+                  <NewsCard key={article.id} article={article} />
                 ))}
               </div>
-            )
-          })}
+            </section>
+          ))}
         </div>
       </main>
 
-      {/* ── Footer ────────────────────────────────────────────────────────── */}
       <footer className="border-t border-border py-6 text-center text-xs text-muted-foreground">
         <p>
           © 2026{" "}
