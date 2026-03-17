@@ -1,5 +1,6 @@
 "use client"
 
+import { useRouter } from "next/navigation"
 import { UserPlus } from "lucide-react"
 import { toast } from "sonner"
 
@@ -53,6 +54,7 @@ const formFields = [
 ] as const
 
 export function RegisterForm(): React.JSX.Element {
+  const router = useRouter()
   const {
     errorMessage,
     formValues,
@@ -82,6 +84,7 @@ export function RegisterForm(): React.JSX.Element {
 
             if (result.response) {
               toast.success("Registration successful. Tokens saved locally.")
+              router.push("/")
             } else if (result.errorMessage) {
               toast.error(result.errorMessage)
             }

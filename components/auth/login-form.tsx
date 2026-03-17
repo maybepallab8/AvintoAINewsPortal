@@ -1,5 +1,6 @@
 "use client"
 
+import { useRouter } from "next/navigation"
 import { LogIn } from "lucide-react"
 import { toast } from "sonner"
 
@@ -29,6 +30,7 @@ const formFields = [
 ] as const
 
 export function LoginForm(): React.JSX.Element {
+  const router = useRouter()
   const {
     errorMessage,
     formValues,
@@ -58,6 +60,7 @@ export function LoginForm(): React.JSX.Element {
 
             if (result.response) {
               toast.success("Login successful. Tokens saved locally.")
+              router.push("/")
             } else if (result.errorMessage) {
               toast.error(result.errorMessage)
             }
