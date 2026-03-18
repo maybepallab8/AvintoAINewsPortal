@@ -12,6 +12,10 @@ export interface LoginRequest {
   username: string
 }
 
+export interface RefreshTokenRequest {
+  refresh: string
+}
+
 export interface AuthUser {
   email: string
   first_name: string
@@ -32,3 +36,10 @@ export interface AuthResponse {
 export type RegisterResponse = AuthResponse
 
 export type LoginResponse = AuthResponse
+
+export interface RefreshTokenResponse {
+  data: {
+    access: string
+  }
+  message: string
+}

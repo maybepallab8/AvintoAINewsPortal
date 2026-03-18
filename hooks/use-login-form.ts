@@ -2,6 +2,7 @@
 
 import type { ChangeEvent, FormEvent } from "react"
 
+import { useMutation } from "@tanstack/react-query"
 import { useCallback, useState } from "react"
 
 import { loginUser } from "@/services/auth"
@@ -26,9 +27,29 @@ interface UseLoginFormResult {
 
 export function useLoginForm(): UseLoginFormResult {
   const [formValues, setFormValues] = useState<LoginRequest>(initialValues)
-  const [isSubmitting, setIsSubmitting] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [successMessage, setSuccessMessage] = useState<string | null>(null)
+
+  const loginMutation = useMutation({
+    mutationFn: loginUser,
+    onError: (error: Error) => {
+      setErrorMessage(error.message)
+      setSuccessMessage(null)
+    },
+    onSuccess: (response) => {
+      setStoredAuthTokens({
+        access: response.data.access,
+        refresh: response.data.refresh,
+      })
+
+      setSuccessMessage(response.message)
+      setErrorMessage(null)
+      setFormValues((currentValues) => ({
+        ...currentValues,
+        password: "",
+      }))
+    },
+  })
 
   const handleInputChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
@@ -47,22 +68,9 @@ export function useLoginForm(): UseLoginFormResult {
       event: FormEvent<HTMLFormElement>
     ): Promise<{ errorMessage: string | null; response: LoginResponse | null }> => {
       event.preventDefault()
-      setIsSubmitting(true)
 
       try {
-        const response = await loginUser(formValues)
-
-        setStoredAuthTokens({
-          access: response.data.access,
-          refresh: response.data.refresh,
-        })
-
-        setSuccessMessage(response.message)
-        setErrorMessage(null)
-        setFormValues((currentValues) => ({
-          ...currentValues,
-          password: "",
-        }))
+        const response = await loginMutation.mutateAsync(formValues)
 
         return { errorMessage: null, response }
       } catch (error: unknown) {
@@ -75,11 +83,9 @@ export function useLoginForm(): UseLoginFormResult {
         setSuccessMessage(null)
 
         return { errorMessage: message, response: null }
-      } finally {
-        setIsSubmitting(false)
       }
     },
-    [formValues]
+    [formValues, loginMutation]
   )
 
   return {
@@ -87,7 +93,7 @@ export function useLoginForm(): UseLoginFormResult {
     formValues,
     handleInputChange,
     handleSubmit,
-    isSubmitting,
+    isSubmitting: loginMutation.isPending,
     successMessage,
   }
 }

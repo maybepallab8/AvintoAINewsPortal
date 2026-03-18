@@ -1,3 +1,6 @@
+import { AxiosError } from "axios"
+
+import { apiClient } from "@/lib/api-client"
 import type {
   LoginRequest,
   LoginResponse,
@@ -5,18 +8,8 @@ import type {
   RegisterResponse,
 } from "@/types/auth"
 
-const API_BASE_URL = process.env["NEXT_PUBLIC_API_URL"]
-
-function getAuthEndpoint(path: string): string {
-  if (!API_BASE_URL) {
-    throw new Error("NEXT_PUBLIC_API_URL is not configured.")
-  }
-
-  return `${API_BASE_URL.replace(/\/$/, "")}${path}`
-}
-
-const REGISTER_ENDPOINT = getAuthEndpoint("/auth/register/")
-const LOGIN_ENDPOINT = getAuthEndpoint("/auth/login/")
+const REGISTER_ENDPOINT = "/auth/register/"
+const LOGIN_ENDPOINT = "/auth/login/"
 
 interface ApiErrorPayload {
   detail?: string
@@ -50,41 +43,39 @@ function getApiErrorMessage(
 export async function registerUser(
   payload: RegisterRequest
 ): Promise<RegisterResponse> {
-  const response = await fetch(REGISTER_ENDPOINT, {
-    body: JSON.stringify(payload),
-    headers: {
-      "Content-Type": "application/json",
-    },
-    method: "POST",
-  })
-
-  const responseBody = (await response.json()) as unknown
-
-  if (!response.ok) {
-    throw new Error(
-      getApiErrorMessage(responseBody, "Registration failed. Please try again.")
+  try {
+    const response = await apiClient.post<RegisterResponse>(
+      REGISTER_ENDPOINT,
+      payload
     )
-  }
 
-  return responseBody as RegisterResponse
+    return response.data
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      throw new Error(
+        getApiErrorMessage(
+          error.response?.data,
+          "Registration failed. Please try again."
+        )
+      )
+    }
+
+    throw error
+  }
 }
 
 export async function loginUser(payload: LoginRequest): Promise<LoginResponse> {
-  const response = await fetch(LOGIN_ENDPOINT, {
-    body: JSON.stringify(payload),
-    headers: {
-      "Content-Type": "application/json",
-    },
-    method: "POST",
-  })
+  try {
+    const response = await apiClient.post<LoginResponse>(LOGIN_ENDPOINT, payload)
 
-  const responseBody = (await response.json()) as unknown
+    return response.data
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      throw new Error(
+        getApiErrorMessage(error.response?.data, "Login failed. Please try again.")
+      )
+    }
 
-  if (!response.ok) {
-    throw new Error(
-      getApiErrorMessage(responseBody, "Login failed. Please try again.")
-    )
+    throw error
   }
-
-  return responseBody as LoginResponse
 }

@@ -2,6 +2,7 @@
 
 import type { ChangeEvent, FormEvent } from "react"
 
+import { useMutation } from "@tanstack/react-query"
 import { useCallback, useState } from "react"
 
 import { registerUser } from "@/services/auth"
@@ -30,9 +31,30 @@ interface UseRegisterFormResult {
 
 export function useRegisterForm(): UseRegisterFormResult {
   const [formValues, setFormValues] = useState<RegisterRequest>(initialValues)
-  const [isSubmitting, setIsSubmitting] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [successMessage, setSuccessMessage] = useState<string | null>(null)
+
+  const registerMutation = useMutation({
+    mutationFn: registerUser,
+    onError: (error: Error) => {
+      setErrorMessage(error.message)
+      setSuccessMessage(null)
+    },
+    onSuccess: (response) => {
+      setStoredAuthTokens({
+        access: response.data.access,
+        refresh: response.data.refresh,
+      })
+
+      setSuccessMessage(response.message)
+      setErrorMessage(null)
+      setFormValues((currentValues) => ({
+        ...currentValues,
+        password: "",
+        password_confirm: "",
+      }))
+    },
+  })
 
   const handleInputChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
@@ -63,24 +85,8 @@ export function useRegisterForm(): UseRegisterFormResult {
         return { errorMessage: mismatchMessage, response: null }
       }
 
-      setIsSubmitting(true)
-
       try {
-        const response = await registerUser(formValues)
-
-        setStoredAuthTokens({
-          access: response.data.access,
-          refresh: response.data.refresh,
-        })
-
-        setSuccessMessage(response.message)
-        setErrorMessage(null)
-
-        setFormValues((currentValues) => ({
-          ...currentValues,
-          password: "",
-          password_confirm: "",
-        }))
+        const response = await registerMutation.mutateAsync(formValues)
 
         return { errorMessage: null, response }
       } catch (error: unknown) {
@@ -92,11 +98,9 @@ export function useRegisterForm(): UseRegisterFormResult {
         setErrorMessage(message)
         setSuccessMessage(null)
         return { errorMessage: message, response: null }
-      } finally {
-        setIsSubmitting(false)
       }
     },
-    [formValues]
+    [formValues, registerMutation]
   )
 
   return {
@@ -104,7 +108,7 @@ export function useRegisterForm(): UseRegisterFormResult {
     formValues,
     handleInputChange,
     handleSubmit,
-    isSubmitting,
+    isSubmitting: registerMutation.isPending,
     successMessage,
   }
 }

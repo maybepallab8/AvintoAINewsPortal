@@ -1,8 +1,11 @@
+"use client"
+
 import Link from "next/link"
 
+import { CategoryColumn } from "@/components/home/category-column"
 import { Button } from "@/components/ui/button"
-import { NewsCard } from "@/components/news-card"
-import { articles, type Article, type Category } from "@/lib/news-data"
+import { useHomeArticles } from "@/hooks/use-home-articles"
+import type { Category } from "@/types/article"
 
 const categories: Category[] = ["AI", "Sports", "World"]
 const categoryMeta: Record<
@@ -36,11 +39,7 @@ function formatDate() {
 }
 
 export default function Page() {
-  const articlesByCategory: Record<Category, Article[]> = {
-    AI: articles.filter((article) => article.category === "AI"),
-    Sports: articles.filter((article) => article.category === "Sports"),
-    World: articles.filter((article) => article.category === "World"),
-  }
+  const { articlesByCategory, categoryErrors, isLoading } = useHomeArticles()
 
   return (
     <div className="min-h-svh bg-background">
@@ -84,23 +83,16 @@ export default function Page() {
       <main className="mx-auto max-w-7xl px-6 py-8">
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
           {categories.map((key) => (
-            <section key={key} aria-label={key}>
-              <div className="mb-5 border-b border-border/80 pb-3">
-                <div
-                  className={`mb-2 h-0.5 w-10 ${categoryMeta[key].accent}`}
-                />
-                <h2
-                  className={`text-[11px] font-semibold uppercase tracking-[0.28em] ${categoryMeta[key].accentText}`}
-                >
-                  {categoryMeta[key].label}
-                </h2>
-              </div>
-              <div>
-                {articlesByCategory[key].map((article) => (
-                  <NewsCard key={article.id} article={article} />
-                ))}
-              </div>
-            </section>
+            <CategoryColumn
+              accent={categoryMeta[key].accent}
+              accentText={categoryMeta[key].accentText}
+              articles={articlesByCategory[key]}
+              category={key}
+              errorMessage={categoryErrors[key]}
+              isLoading={isLoading}
+              key={key}
+              label={categoryMeta[key].label}
+            />
           ))}
         </div>
       </main>
