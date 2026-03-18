@@ -47,6 +47,7 @@ function normalizeArticle(apiArticle: ApiArticle, category: Category, index: num
     headline: apiArticle.title,
     id: String(apiArticle.id),
     imageUrl: apiArticle.image_url || null,
+    likesCount: apiArticle.likes_count,
     size: getArticleSize(index),
     source: apiArticle.feed.name || apiArticle.author || "Unknown source",
     summary:

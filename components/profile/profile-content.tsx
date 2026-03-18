@@ -4,11 +4,16 @@ import { LikedPostsSection } from "@/components/profile/liked-posts-section"
 import { ProfileDetails } from "@/components/profile/profile-details"
 import { ProfileImageUpload } from "@/components/profile/profile-image-upload"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { useLikedPosts } from "@/hooks/use-liked-posts"
 import { useProfile } from "@/hooks/use-profile"
-import { likedPosts } from "@/services/profile"
 
 export function ProfileContent(): React.JSX.Element {
   const { errorMessage, isLoading, user } = useProfile()
+  const {
+    errorMessage: likedPostsErrorMessage,
+    isLoading: isLikedPostsLoading,
+    posts,
+  } = useLikedPosts()
 
   return (
     <div className="grid gap-6 lg:grid-cols-[340px_minmax(0,1fr)]">
@@ -42,7 +47,11 @@ export function ProfileContent(): React.JSX.Element {
         ) : null}
 
         {!isLoading && user ? <ProfileDetails user={user} /> : null}
-        <LikedPostsSection posts={likedPosts} />
+        <LikedPostsSection
+          errorMessage={likedPostsErrorMessage}
+          isLoading={isLikedPostsLoading}
+          posts={posts}
+        />
       </div>
     </div>
   )
