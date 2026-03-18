@@ -1,9 +1,6 @@
 import type { Metadata } from "next"
 
-import { LikedPostsSection } from "@/components/profile/liked-posts-section"
-import { ProfileDetails } from "@/components/profile/profile-details"
-import { ProfileImageUpload } from "@/components/profile/profile-image-upload"
-import { likedPosts, profileUser } from "@/services/profile"
+import { ProfileContent } from "@/components/profile/profile-content"
 
 export const metadata: Metadata = {
   title: "Profile | Newspaper-AI",
@@ -26,14 +23,7 @@ export default function ProfilePage(): React.JSX.Element {
           </p>
         </header>
 
-        <div className="grid gap-6 lg:grid-cols-[340px_minmax(0,1fr)]">
-          <ProfileImageUpload />
-
-          <div className="grid gap-6">
-            <ProfileDetails user={profileUser} />
-            <LikedPostsSection posts={likedPosts} />
-          </div>
-        </div>
+        <ProfileContent />
       </div>
     </main>
   )

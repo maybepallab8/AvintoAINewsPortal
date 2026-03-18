@@ -21,20 +21,26 @@ export function ProfileDetails({
           Profile details
         </CardTitle>
         <p className="text-sm font-medium text-white dark:text-black">
-          Name and email are placeholder values for now and can be connected to
-          backend data later.
+          Profile information loaded from the authenticated API.
         </p>
       </CardHeader>
 
       <CardContent>
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid gap-4 sm:grid-cols-3">
           <div className="border-4 border-black bg-white p-4 dark:border-white dark:bg-black">
             <p className="text-xs font-black uppercase tracking-[0.24em]">
-              User name
+              Name
             </p>
             <p className="mt-2 text-xl font-black uppercase wrap-break-word">
               {user.name}
             </p>
+          </div>
+
+          <div className="border-4 border-black bg-white p-4 dark:border-white dark:bg-black">
+            <p className="text-xs font-black uppercase tracking-[0.24em]">
+              Username
+            </p>
+            <p className="mt-2 text-base font-bold break-all">{user.username}</p>
           </div>
 
           <div className="border-4 border-black bg-white p-4 dark:border-white dark:bg-black">
