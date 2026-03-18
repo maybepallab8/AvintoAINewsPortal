@@ -12,6 +12,7 @@ export interface ArticleFeed {
 export interface ApiArticle {
   author: string
   content: string
+  feed_category?: ApiArticleCategory
   fetched_at: string
   feed: ArticleFeed
   id: number
@@ -38,9 +39,21 @@ export interface Article {
   headline: string
   id: string
   imageUrl: string | null
+  likesCount: number
   size: ArticleSize
   source: string
   summary: string
   time: string
   url: string
+}
+
+export interface ArticleLikeData {
+  article_id: number
+  liked: boolean
+  likes_count: number
+}
+
+export interface ArticleLikeResponse {
+  data: ArticleLikeData
+  message: string
 }

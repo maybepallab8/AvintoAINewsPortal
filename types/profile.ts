@@ -7,9 +7,11 @@ export interface ProfileUser {
 }
 
 export interface LikedPost {
+  likesCount: number
   id: string
   title: string
   summary: string
   category: NewsCategory
   likedAt: string
+  url: string
 }

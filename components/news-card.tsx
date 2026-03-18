@@ -1,3 +1,4 @@
+import { ArticleLikeButton } from "@/components/articles/article-like-button"
 import type { Article } from "@/types/article"
 
 function Meta({ source, time }: { source: string; time: string }) {
@@ -15,7 +16,8 @@ interface NewsCardProps {
 }
 
 export function NewsCard({ article }: NewsCardProps) {
-  const { headline, imageUrl, summary, source, time, size, url } = article
+  const { headline, id, imageUrl, likesCount, summary, source, time, size, url } =
+    article
 
   const imageElement = imageUrl ? (
     <img
@@ -40,6 +42,7 @@ export function NewsCard({ article }: NewsCardProps) {
           </p>
           <Meta source={source} time={time} />
         </a>
+        <ArticleLikeButton articleId={id} initialLikesCount={likesCount} />
       </article>
     )
   }
@@ -57,6 +60,7 @@ export function NewsCard({ article }: NewsCardProps) {
           </p>
           <Meta source={source} time={time} />
         </a>
+        <ArticleLikeButton articleId={id} initialLikesCount={likesCount} />
       </article>
     )
   }
@@ -73,6 +77,7 @@ export function NewsCard({ article }: NewsCardProps) {
         </p>
         <Meta source={source} time={time} />
       </a>
+      <ArticleLikeButton articleId={id} initialLikesCount={likesCount} />
     </article>
   )
 }
