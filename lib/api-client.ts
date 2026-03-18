@@ -24,7 +24,7 @@ const REGISTER_ENDPOINT_PATH = "/auth/register/"
 const REFRESH_ENDPOINT_PATH = "/auth/refresh/"
 const SHARED_API_HEADERS = {
   "Content-Type": "application/json",
-  "ngrok-skip-browser-warning": "true",
+  // "ngrok-skip-browser-warning": "true",
 }
 
 interface RetryableRequestConfig extends InternalAxiosRequestConfig {

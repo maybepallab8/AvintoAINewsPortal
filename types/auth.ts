@@ -43,3 +43,8 @@ export interface RefreshTokenResponse {
   }
   message: string
 }
+
+export interface ProfileResponse {
+  data: AuthUser
+  message: string
+}

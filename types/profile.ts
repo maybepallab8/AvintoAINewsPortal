@@ -3,6 +3,7 @@ export type NewsCategory = "AI" | "Sports" | "World News"
 export interface ProfileUser {
   name: string
   email: string
+  username: string
 }
 
 export interface LikedPost {

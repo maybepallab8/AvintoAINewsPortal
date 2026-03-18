@@ -1,9 +1,36 @@
-import type { LikedPost, ProfileUser } from "@/types/profile"
+import axios from "axios"
 
-// Placeholder profile data until backend integration is added.
-export const profileUser: ProfileUser = {
-  name: "Alex Johnson",
-  email: "alex.johnson@example.com",
+import type { ProfileResponse } from "@/types/auth"
+import type { LikedPost, ProfileUser } from "@/types/profile"
+import { getStoredAccessToken } from "@/utils/auth-storage"
+
+const PROFILE_ENDPOINT = "/api/auth/profile"
+
+function getDisplayName(firstName: string, lastName: string, username: string): string {
+  const fullName = `${firstName} ${lastName}`.trim()
+
+  return fullName.length > 0 ? fullName : username
+}
+
+export async function getProfile(): Promise<ProfileUser> {
+  const accessToken = getStoredAccessToken()
+
+  if (!accessToken) {
+    throw new Error("Please log in to view your profile.")
+  }
+
+  const response = await axios.get<ProfileResponse>(PROFILE_ENDPOINT, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  })
+  const user = response.data.data
+
+  return {
+    email: user.email,
+    name: getDisplayName(user.first_name, user.last_name, user.username),
+    username: user.username,
+  }
 }
 
 export const likedPosts: LikedPost[] = [
