@@ -1,3 +1,6 @@
+import Link from "next/link"
+
+import { Button } from "@/components/ui/button"
 import { NewsCard } from "@/components/news-card"
 import { articles, type Article, type Category } from "@/lib/news-data"
 
@@ -43,17 +46,28 @@ export default function Page() {
     <div className="min-h-svh bg-background">
       <header className="border-b border-border">
         <div className="mx-auto max-w-7xl px-6 py-3">
-          <div className="flex items-center justify-between text-xs text-muted-foreground">
+          <div className="flex flex-col gap-3 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
             <time dateTime={new Date().toISOString().slice(0, 10)}>
               {formatDate()}
             </time>
-            <span className="font-mono">
-              Press{" "}
-              <kbd className="rounded border border-border px-1 py-px text-[10px]">
-                D
-              </kbd>{" "}
-              to toggle dark mode
-            </span>
+
+            <div className="flex flex-wrap items-center gap-2 sm:justify-end">
+              <Link href="/login">
+                <Button size="sm" variant="outline">
+                  Login
+                </Button>
+              </Link>
+              <Link href="/register">
+                <Button size="sm">Register</Button>
+              </Link>
+              <span className="font-mono">
+                Press{" "}
+                <kbd className="rounded border border-border px-1 py-px text-[10px]">
+                  D
+                </kbd>{" "}
+                to toggle dark mode
+              </span>
+            </div>
           </div>
 
           <div className="mt-3 border-y border-border py-5 text-center">
